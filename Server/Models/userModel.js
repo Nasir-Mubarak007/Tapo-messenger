@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema(
     password: { type: String, required: true },
     pic: {
       type: String,
-      default: "https://icon-library.com/images/anonyous-avatar-icon-25.jpg",
+      default: "https://icon-library.com/664034_users.svg.html",
     },
   },
   { timestamps: true }

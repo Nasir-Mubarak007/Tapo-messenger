@@ -121,6 +121,7 @@ const SingleChat = () => {
 
   useEffect(() => {
     fetchMessages();
+    console.log(user);
 
     selectedChatCompare = selectedChat;
   }, [selectedChat]);

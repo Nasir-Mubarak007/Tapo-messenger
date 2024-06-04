@@ -9,7 +9,6 @@ import ChatBox from "../components/miscellaneous/ChatBox";
 
 const Chats = () => {
   const { user } = ChatState();
-  const [fetchAgain, setFetchAgain] = useState(false);
 
   return (
     <div style={{ width: "100%" }}>

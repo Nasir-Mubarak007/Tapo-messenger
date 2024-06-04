@@ -6,20 +6,16 @@ import { FaPlus } from "react-icons/fa";
 import ChatLoading from "../ChatLoading";
 import { getSender } from "../../config/ChatLogics";
 import GroupChatModal from "./GroupChatModal";
+import { axiosInstance, baseURL } from "../../config/axiosInstance";
 
 const MyChats = () => {
-  const [loggedUser, setLoggedUser] = useState();
-  const {
-    user,
-    selectedChat,
-    setSelectedChat,
-    chats,
-    setChats,
-    fetchAgain,
-  } = ChatState();
+  const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
   const toast = useToast();
 
-  const fetchChats = async () => {
+  const fetchChats = async (user) => {
+    // console.log("user inside fetch", user);
+    if (!user) return;
+
     try {
       const config = {
         headers: {
@@ -27,8 +23,10 @@ const MyChats = () => {
         },
       };
 
+      // const { data } = await axiosInstance(user).get(baseURL + "/api/chat");
       const { data } = await axios.get("/api/chat", config);
-      console.log(data);
+
+      console.log(data, "data");
       setChats(data);
     } catch (error) {
       toast({
@@ -39,13 +37,13 @@ const MyChats = () => {
         isClosable: true,
         position: "bottom-left",
       });
+      // console.log(error);
     }
   };
 
   useEffect(() => {
-    setLoggedUser(JSON.parse(localStorage.getItem("userDetails")));
-    fetchChats();
-  }, [!fetchAgain]);
+    fetchChats(user);
+  }, [user]);
 
   return (
     <Box
@@ -104,7 +102,7 @@ const MyChats = () => {
               >
                 <Text>
                   {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
+                    ? getSender(user, chat.users)
                     : chat.chatName}
                 </Text>
               </Box>

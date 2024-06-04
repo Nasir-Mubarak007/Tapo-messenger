@@ -12,6 +12,7 @@ import {
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { baseURL } from "../config/axiosInstance";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -45,7 +46,7 @@ const Login = () => {
 
       const datas = { email, password };
 
-      const { data } = await axios.post("api/user/login", datas, config);
+      const { data } = await axios.post("/api/user/login", datas, config);
       toast({
         title: "You're logged in successfully!",
         status: "success",
@@ -60,12 +61,13 @@ const Login = () => {
     } catch (error) {
       toast({
         title: "Oops! something wnet wrong",
-        description: error.response.data.message,
+        // description: error.response.data.message,
         status: "error",
         duration: 4000,
         isClosable: true,
         position: "bottom",
       });
+      console.log(error);
       setLoading(false);
     }
   };
