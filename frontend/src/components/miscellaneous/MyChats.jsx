@@ -6,10 +6,17 @@ import { FaPlus } from "react-icons/fa";
 import ChatLoading from "../ChatLoading";
 import { getSender } from "../../config/ChatLogics";
 import GroupChatModal from "./GroupChatModal";
-import { axiosInstance, baseURL } from "../../config/axiosInstance";
+// import { axiosInstance, baseURL } from "../../config/axiosInstance";
 
 const MyChats = () => {
-  const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
+  const {
+    user,
+    selectedChat,
+    setSelectedChat,
+    chats,
+    setChats,
+    fetchAgain,
+  } = ChatState();
   const toast = useToast();
 
   const fetchChats = async (user) => {
@@ -43,7 +50,7 @@ const MyChats = () => {
 
   useEffect(() => {
     fetchChats(user);
-  }, [user]);
+  }, [user, !fetchAgain]);
 
   return (
     <Box
