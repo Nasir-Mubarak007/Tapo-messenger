@@ -14,6 +14,7 @@ import {
   MenuItem,
   MenuList,
   Spinner,
+  Stack,
   Text,
   Tooltip,
   useDisclosure,
@@ -198,13 +199,15 @@ const SideDrawer = () => {
             {loading ? (
               <ChatLoading />
             ) : (
-              searchResults?.map((user) => (
-                <UserListItem
-                  key={user._id}
-                  user={user}
-                  handleFunction={() => accessChat(user._id)}
-                />
-              ))
+              <Stack className="messages">
+                {searchResults?.map((user) => (
+                  <UserListItem
+                    key={user._id}
+                    user={user}
+                    handleFunction={() => accessChat(user._id)}
+                  />
+                ))}
+              </Stack>
             )}
             {loadingChat && <Spinner ml={"auto"} display={"flex"} />}
           </DrawerBody>

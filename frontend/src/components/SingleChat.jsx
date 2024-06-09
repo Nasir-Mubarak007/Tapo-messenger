@@ -37,7 +37,7 @@ const SingleChat = () => {
   } = ChatState();
   const toast = useToast();
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState();
+  const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
@@ -93,6 +93,34 @@ const SingleChat = () => {
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
       // socket.emit("stop typing", selectedChat._id);
+      try {
+        setNewMessage("");
+        const { data } = await axios.post(
+          "/api/message",
+          {
+            content: newMessage,
+            chatId: selectedChat._id,
+          },
+          config
+        );
+        console.log(data);
+        socket.emit("new message", data);
+        setMessages([...messages, data]);
+      } catch (error) {
+        toast({
+          title: "Error Occured!",
+          description: "failed to send message",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+        });
+      }
+    }
+  };
+
+  const sendChat = async () => {
+    if (newMessage) {
       try {
         setNewMessage("");
         const { data } = await axios.post(
@@ -233,16 +261,18 @@ const SingleChat = () => {
                   loop={true}
                 />
               )}
-              <Input
-                bg={"e0e0e0"}
-                variant={"filled"}
-                placeholder="Enter your message..."
-                onChange={typingHandler}
-                value={newMessage}
-              />
-              {/* <Button onClick={() => sendMessage}>
-                <FaPaperPlane size={"20px"} />
-              </Button> */}
+              <div className="typingSpace" style={{ display: "flex", gap: 3 }}>
+                <Input
+                  bg={"e0e0e0"}
+                  variant={"filled"}
+                  placeholder="Enter your message..."
+                  onChange={typingHandler}
+                  value={newMessage}
+                />
+                <Button onClick={() => sendChat()}>
+                  <FaPaperPlane size={"20px"} />
+                </Button>
+              </div>
             </FormControl>
           </Box>
         </>
