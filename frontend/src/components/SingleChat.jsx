@@ -131,7 +131,7 @@ const SingleChat = () => {
           },
           config
         );
-        console.log(data);
+        console.log(data, "latest Msg");
         socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {

@@ -9,6 +9,7 @@ const messageModel = mongoose.Schema(
       trim: true,
     },
     chat: { type: mongoose.Schema.Types.ObjectId, ref: "Chat" },
+    readBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamp: true }
 );

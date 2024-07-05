@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { FaPlus } from "react-icons/fa";
 import ChatLoading from "../ChatLoading";
-import { getSender } from "../../config/ChatLogics";
+import { getSender, getSender2 } from "../../config/ChatLogics";
 import GroupChatModal from "./GroupChatModal";
 import "../styles.css";
 // import { axiosInstance, baseURL } from "../../config/axiosInstance";
@@ -51,11 +51,7 @@ const MyChats = () => {
 
   useEffect(() => {
     fetchChats(user);
-  }, [user, !fetchAgain]);
-
-  chats.map((chat) => {
-    const latestMessage = chat.latestMessage;
-  });
+  }, [user, fetchAgain]);
 
   return (
     <Box
@@ -119,13 +115,10 @@ const MyChats = () => {
                       : getSender(user, chat.users)}
                   </Text>
                   <Text display={"flex"} gap={4} fontSize={12}>
-                    <b>
-                      {chat.latestMessage !== (undefined || null) &&
-                        getSender(chat.latestMessage?.sender, chat.users)}
-                      :
-                    </b>
-                    {chat.latestMessage !== (undefined || null) &&
-                      chat.latestMessage.content}
+                    <b>{chat.latestMessage.sender.name}:</b>
+                    {chat.latestMessage.content.length > 30
+                      ? chat.latestMessage.content.substring(0, 31) + "..."
+                      : chat.latestMessage.content}
                   </Text>
                 </Box>
               ))}

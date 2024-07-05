@@ -9,7 +9,13 @@ const userSchema = mongoose.Schema(
     password: { type: String, required: true },
     pic: {
       type: String,
-      default: "https://icon-library.com/664034_users.svg.html",
+      default:
+        "https://www.flaticon.com/free-icon/user_1077114?term=person&page=1&position=1&origin=search&related_id=1077114",
+    },
+    isAdmin: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
   },
   { timestamps: true }
